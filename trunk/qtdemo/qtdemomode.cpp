@@ -214,9 +214,11 @@ void QtDemoMode::resolveSdkHome()
         while(!ts.atEnd())
         {
             QString line = ts.readLine();
+            if (line.startsWith('#'))
+                continue;
             if (line.contains(QLatin1String("QT_SDK_HOME")))
             {
-                int pos = line.indexOf("=");
+                int pos = line.indexOf('=');
                 if (pos > 0)
                 {
                     line = line.mid(pos+1).trimmed();
@@ -226,9 +228,11 @@ void QtDemoMode::resolveSdkHome()
                     }
                     else
                     {
-                        QMessageBox mbox;
-                        mbox.setText(QString("Error! QT_SDK_HOME: %1").arg(line));
-                        mbox.exec();
+                        QMessageBox::critical(0,
+                                              QObject::tr("QtDemo plugin"),
+                                              QObject::tr("Error! QT_SDK_HOME: %1 \nin %2")
+                                              .arg(line).arg(propertiesFileName)
+                                              );
                     }
                 }
                 break;
