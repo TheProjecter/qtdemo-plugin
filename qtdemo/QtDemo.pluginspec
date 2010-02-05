@@ -1,4 +1,4 @@
-<plugin name="QtDemo" version="1.3.0" compatVersion="1.3.0">
+<plugin name="QtDemo" version="1.3.1" compatVersion="1.3.1">
     <vendor>douyongwang@gmail.com</vendor>
     <copyright>(C) 2009-2010 Yongwang Dou</copyright>
     <license>
@@ -13,7 +13,7 @@ Alternatively, this plugin may be used under the terms of the GNU Lesser General
     <description>QtDemo Plugin</description>
     <url>http://code.google.com/p/qtdemo-plugin/</url>
     <dependencyList>
-        <dependency name="Core" version="1.3.0"/>
-        <dependency name="Qt4ProjectManager" version="1.3.0"/>
+        <dependency name="Core" version="1.3.1"/>
+        <dependency name="Qt4ProjectManager" version="1.3.1"/>
     </dependencyList>
 </plugin>

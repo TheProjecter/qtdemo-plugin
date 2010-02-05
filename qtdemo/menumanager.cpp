@@ -122,7 +122,16 @@ void MenuManager::readXmlDocument()
     int errorLine;
     int errorColumn;
 
-    QFile file(":/xml/examples.xml");
+    QString demoxml = qtSdkHome + "/demos/qtdemo/xml/examples.xml";
+    if (!QFile::exists(demoxml)) {
+        demoxml = qtSdkHome + "/qtdemo/xml/examples.xml";
+        if (!QFile::exists(demoxml))
+        {
+            demoxml = ":/xml/examples.xml";
+        }
+    }
+
+    QFile file(demoxml);
     bool statusOK = this->contentsDoc->setContent(&file, true, &errorStr, &errorLine, &errorColumn);
     if (!statusOK){
         QMessageBox::critical(0,
