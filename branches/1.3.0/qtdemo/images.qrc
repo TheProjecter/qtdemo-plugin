@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/qtdemo">
+        <file>images/qt_logo.png</file>
+        <file>images/background_center_frame.png</file>
+    </qresource>
+</RCC>
