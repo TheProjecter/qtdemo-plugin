@@ -1,5 +1,2 @@
 TODOs:
-* resolve QTDIR home path
-* open project inplace
-* open document inplace
-* clone project support?
+* resolve QTDIR home path automatically
