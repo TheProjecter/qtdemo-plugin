@@ -77,12 +77,17 @@ public:
     QString resolveImageUrl(const QString &name);
     QString resolveDataDir(const QString &name);
     QString resolveProFile(const QString &name);
+    QString sdkHome() const { return this->qtSdkHome; }
 
     HashHash info;
     ItemCircleAnimation *ticker;
     MainWindow *window;
     Score *score;
     int currentMenuCode;
+    QString qtSdkHome;
+
+Q_SIGNALS:
+    void toggleFullScreen();
 
 private slots:
     void exampleFinished();

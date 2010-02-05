@@ -98,6 +98,7 @@ bool QtDemoPlugin::initialize(const QStringList &arguments, QString *error_messa
 void QtDemoPlugin::extensionsInitialized()
 {
     m_qtdemoMode->initPlugins();
+
 //    Core::ModeManager::instance()->activateMode(m_qtdemoMode->id());
 }
 

@@ -471,4 +471,74 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     this->fpsHistory.clear();
 }
 
+void MainWindow::updateExamples(const QString& examplePath, const QString& demosPath, const QString &sourcePath)
+{
+    QMessageBox mbox(this);
+    QStringList slist;
+    slist << "examplePath:" << examplePath << "\n"
+            << "demosPath:" << demosPath << "\n"
+            << "sourcePath:" << sourcePath;
 
+    mbox.setText(slist.join(""));
+    mbox.exec();
+
+    QString demoxml = demosPath + "/qtdemo/xml/examples.xml";
+    if (!QFile::exists(demoxml)) {
+        demoxml = sourcePath + "/demos/qtdemo/xml/examples.xml";
+        if (!QFile::exists(demoxml))
+            return;
+    }
+
+    QFile description(demoxml);
+    if (!description.open(QFile::ReadOnly))
+        return;
+
+#if 0
+    ui->examplesComboBox->clear();
+    ui->examplesComboBox->setEnabled(true);
+
+    ui->examplesComboBox->addItem(tr("Choose an example..."));
+    QFont f = font();
+    f.setItalic(true);
+    ui->examplesComboBox->setItemData(0, f, Qt::FontRole);
+    f.setItalic(false);
+    bool inExamples = false;
+    QString dirName;
+    QXmlStreamReader reader(&description);
+    while (!reader.atEnd()) {
+        switch (reader.readNext()) {
+            case QXmlStreamReader::StartElement:
+            if (reader.name() == "category") {
+                QString name = reader.attributes().value(QLatin1String("name")).toString();
+                if (name.contains("tutorial"))
+                    break;
+                dirName = reader.attributes().value(QLatin1String("dirname")).toString();
+                ui->examplesComboBox->addItem(name);
+                f.setBold(true);
+                ui->examplesComboBox->setItemData(ui->examplesComboBox->count()-1, f, Qt::FontRole);
+                f.setBold(false);
+                inExamples = true;
+            }
+            if (inExamples && reader.name() == "example") {
+                QString name = reader.attributes().value(QLatin1String("name")).toString();
+                QString fn = reader.attributes().value(QLatin1String("filename")).toString();
+                QString relativeProPath = '/' + dirName + '/' + fn + '/' + fn + ".pro";
+                QString fileName = examplePath + relativeProPath;
+                if (!QFile::exists(fileName))
+                    fileName = sourcePath + "/examples" + relativeProPath;
+                QString helpPath = "qthelp://com.trolltech.qt/qdoc/" + dirName.replace("/", "-") + "-" + fn + ".html";
+
+                ui->examplesComboBox->addItem("  " + name, fileName);
+                ui->examplesComboBox->setItemData(ui->examplesComboBox->count()-1, helpPath, Qt::UserRole+1);
+            }
+            break;
+            case QXmlStreamReader::EndElement:
+            if (reader.name() == "category")
+                inExamples = false;
+            break;
+            default:
+            break;
+        }
+    }
+#endif
+}

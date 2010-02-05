@@ -32,7 +32,8 @@ HEADERS += qtdemoplugin.h \
     menumanager.h \
     colors.h \
     textbutton.h \
-    imageitem.h 
+    imageitem.h
+#    qtoptionspage.h
 SOURCES += qtdemoplugin.cpp \
     qtdemomode.cpp \
 #	main.cpp \
@@ -56,11 +57,12 @@ SOURCES += qtdemoplugin.cpp \
     colors.cpp \
     textbutton.cpp \
     imageitem.cpp
+#    qtoptionspage.cpp
 
 FORMS += qtdemomode.ui
 #    communityqtdemopagewidget.ui
 RESOURCES += qtdemo.qrc images.qrc
-DEFINES += QTDEMO_LIBRARY USE_DISABLE_QUIT
+DEFINES += QTDEMO_LIBRARY
 OTHER_FILES += qtdemo.pluginspec
 
 win32:RC_FILE = qtdemo.rc
