@@ -44,9 +44,21 @@
 #include "menucontent.h"
 #include "examplecontent.h"
 
+#include <extensionsystem/pluginmanager.h>
+#include <projectexplorer/projectexplorer.h>
+#include <coreplugin/icore.h>
+
+//#include <qt4projectmanager/qt4projectmanager.h>
+//#include <qt4projectmanager/qt4projectmanagerconstants.h>
+using namespace ExtensionSystem;
+
 QString libraryLocation(QLibraryInfo::LibraryLocation location)
 {
-    QString path(QLatin1String("c:/Qt/4.6.0"));
+//    QString path(QLatin1String("c:/Qt/4.6.0"));
+//    QMessageBox mbox;
+//    mbox.setText("location: " + QString::number(location));
+//    mbox.exec();
+    QString path = MenuManager::instance()->sdkHome();
     switch (location)
     {
     case QLibraryInfo::PrefixPath:  {  break; }
@@ -61,10 +73,8 @@ QString libraryLocation(QLibraryInfo::LibraryLocation location)
     case QLibraryInfo::DemosPath: { path += QString(QLatin1String("/demos")); break; }
     case QLibraryInfo::ExamplesPath: { path += QString(QLatin1String("/examples")); break; }
     }
-
     return path;
 }
-
 
 MenuManager *MenuManager::pInstance = 0;
 
@@ -88,8 +98,6 @@ MenuManager::MenuManager()
     this->currentMenuButtons = QLatin1String("[no menu buttons visible]");
     this->currentInfo = QLatin1String("[no info visible]");
     this->currentMenuCode = -1;
-    this->readXmlDocument();
-    this->initHelpEngine();
 }
 
 MenuManager::~MenuManager()
@@ -193,7 +201,8 @@ void MenuManager::itemSelected(int userCode, const QString &menuName)
         }
         break;
     case FULLSCREEN:
-        this->window->toggleFullscreen();
+//        this->window->toggleFullscreen();
+        Q_EMIT this->toggleFullScreen();
         break;
     case ROOT:
         // out:
@@ -341,9 +350,13 @@ void MenuManager::showDocInAssistant(const QString &name)
 void MenuManager::openProject(const QString &uniqueName)
 {
     QString proFile = this->resolveProFile(uniqueName);
-    QMessageBox mbox;
-    mbox.setText(proFile);
-    mbox.exec();
+    bool open = ProjectExplorer::ProjectExplorerPlugin::instance()->openProject(proFile);
+    if (!open)
+    {
+        QMessageBox mbox;
+        mbox.setText("Cannot open project. \n" + proFile);
+        mbox.exec();
+    }
 }
 
 void MenuManager::launchExample(const QString &name)
@@ -399,6 +412,9 @@ void MenuManager::exampleError(QProcess::ProcessError error)
 void MenuManager::init(MainWindow *window)
 {
     this->window = window;
+
+    this->readXmlDocument();
+    this->initHelpEngine();
 
     // Create div:
     this->createTicker();

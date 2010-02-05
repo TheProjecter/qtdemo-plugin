@@ -34,7 +34,6 @@
 
 #include <coreplugin/imode.h>
 
-
 QT_BEGIN_NAMESPACE
 class QWidget;
 class QUrl;
@@ -53,15 +52,24 @@ public:
     ~QtDemoMode();
 
     // IMode
-    QString displayName() const;
+//    QString displayName() const;
+    virtual QString name() const;
     QIcon icon() const;
     int priority() const;
     QWidget *widget();
-    QString id() const;
+//    QString id() const;
+    virtual const char *uniqueModeName() const;
     QList<int> context() const;
     void activated();
     QString contextHelpId() const { return QLatin1String("Qt Creator"); }
     void initPlugins();
+
+public Q_SLOTS:
+//    void projectManagerAdded(QObject *obj);
+    void toggleFullScreen();
+
+private:
+    void resolveSdkHome();
 
 private:
     QtDemoModePrivate *m_d;

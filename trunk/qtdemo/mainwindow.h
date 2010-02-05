@@ -83,6 +83,7 @@ protected:
 
 private slots:
     void tick();
+    void updateExamples(const QString& examplePath, const QString& demosPath, const QString &sourcePath);
 
 private:
     void setupWidget();
